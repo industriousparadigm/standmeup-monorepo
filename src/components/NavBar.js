@@ -60,7 +60,7 @@ const NavBar = () => {
                       Topics
                     </NavLink>
                   </NavItem>
-                  <NavItem>
+                  {/* <NavItem>
                     <NavLink
                       tag={RouterNavLink}
                       to='/external-api'
@@ -69,7 +69,7 @@ const NavBar = () => {
                     >
                       External API
                     </NavLink>
-                  </NavItem>
+                  </NavItem> */}
                 </>
               )}
             </Nav>

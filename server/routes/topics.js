@@ -5,7 +5,7 @@ const router = express.Router()
 // Get all topics
 router.get('/', async (req, res) => {
   try {
-    const topics = await Topic.find()
+    const topics = await (await Topic.find()).reverse()
     res.json(topics)
   } catch (err) {
     res.status(500).json({ message: err.message })
@@ -38,7 +38,17 @@ router.post('/', async (req, res) => {
 })
 
 // Update one topic
-router.patch('/:id', (req, res) => {})
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params
+  const { body } = req
+  try {
+    const topic = await Topic.findById(id)
+    if (topic) await topic.updateOne(body)
+    res.status(201).json(topic)
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
 
 // Delete one topic
 router.delete('/:id', async (req, res) => {
