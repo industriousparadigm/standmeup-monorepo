@@ -37,3 +37,23 @@
 .result-block-container .result-block.show {
   opacity: 1;
 }
+
+/* .logo {
+  background-image: url(./assets/chat.svg);
+  width: 2.25rem;
+  height: 2.25rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+footer {
+  background: #eff1f5;
+  box-shadow: 0 -1px 2px 0 #dfe3ec;
+  min-height: 132px;
+  text-align: center;
+  padding: 32px;
+}
+
+footer .logo {
+  margin: 0 auto 10px auto;
+} */

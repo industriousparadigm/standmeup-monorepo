@@ -1,37 +1,40 @@
-import React from "react";
-import { Container, Row, Col } from "reactstrap";
+import React from 'react'
+import { Container, Row, Col } from 'reactstrap'
 
-import Highlight from "../components/Highlight";
-import Loading from "../components/Loading";
-import { useAuth0 } from "../react-auth0-spa";
+import Highlight from '../components/Highlight'
+import Loading from '../components/Loading'
+import { useAuth0 } from '../react-auth0-spa'
 
 const Profile = () => {
-  const { loading, user } = useAuth0();
+  const auth0Return = useAuth0()
+  const { loading, user } = auth0Return
+
+  console.log({ auth0Return, token: auth0Return.getTokenSilently() })
 
   if (loading || !user) {
-    return <Loading />;
+    return <Loading />
   }
 
   return (
-    <Container className="mb-5">
-      <Row className="align-items-center profile-header mb-5 text-center text-md-left">
+    <Container className='mb-5'>
+      <Row className='align-items-center profile-header mb-5 text-center text-md-left'>
         <Col md={2}>
           <img
             src={user.picture}
-            alt="Profile"
-            className="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
+            alt='Profile'
+            className='rounded-circle img-fluid profile-picture mb-3 mb-md-0'
           />
         </Col>
         <Col md>
           <h2>{user.name}</h2>
-          <p className="lead text-muted">{user.email}</p>
+          <p className='lead text-muted'>{user.email}</p>
         </Col>
       </Row>
       <Row>
         <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

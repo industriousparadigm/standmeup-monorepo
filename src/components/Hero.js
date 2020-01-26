@@ -1,17 +1,23 @@
-import React from "react";
+import React from 'react'
 
-import logo from "../assets/logo.svg";
+import logo from '../assets/chat.svg'
 
 const Hero = () => (
-  <div className="text-center hero my-5">
-    <img className="mb-3 app-logo" src={logo} alt="React logo" width="120" />
-    <h1 className="mb-4">React.js Sample Project</h1>
+  <div className='text-center hero my-5'>
+    <img
+      className='mb-3 app-logo'
+      src={logo}
+      alt='Standmeup logo'
+      width='120'
+    />
+    <h1 className='mb-4'>standmeup</h1>
 
-    <p className="lead">
-      This is a sample application that demonstrates an authentication flow for
-      an SPA, using <a href="https://reactjs.org">React.js</a>
+    <p className='lead'>
+      Say goodbye to mumbling when you should have been shining in front of your
+      colleagues. <br /> <br />
+      Standmeup <strong>will not</strong> stand you up today!
     </p>
   </div>
-);
+)
 
-export default Hero;
+export default Hero

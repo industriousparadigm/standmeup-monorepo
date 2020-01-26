@@ -1,12 +1,21 @@
-import React from "react";
+import React from 'react'
 
 const Footer = () => (
-  <footer className="bg-light p-3 text-center">
-    <div className="logo" />
+  <footer className='bg-light p-3 text-center'>
+    <div className='logo' />
     <p>
-      Sample project provided by <a href="https://auth0.com">Auth0</a>
+      App built on top of{' '}
+      <a
+        href='https://auth0.com'
+        target='_blank'
+        rel='noreferrer noopener'
+        aria-label='External link to Auth0 website'
+      >
+        Auth0
+      </a>
+      's sample SPA project.
     </p>
   </footer>
-);
+)
 
-export default Footer;
+export default Footer
