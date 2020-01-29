@@ -25,9 +25,8 @@ router.get('/:id', async (req, res) => {
 
 // Create one topic
 router.post('/', async (req, res) => {
-  const topic = new Topic({
-    name: req.body.name
-  })
+  const { name, user } = req.body
+  const topic = new Topic({ name, user })
 
   try {
     const newTopic = await topic.save()
