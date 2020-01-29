@@ -3,58 +3,46 @@ import React, { useState, useEffect } from 'react'
 import { useAuth0 } from '../react-auth0-spa'
 import TopicCard from '../components/TopicCard'
 import Loading from '../components/Loading'
-import { get } from '../api/API'
+import {
+  getTopics,
+  postTopic,
+  patchTopic,
+  removeTopic
+} from '../api/topics-api'
 
 const TopicsList = () => {
   const [topics, setTopics] = useState(null)
   const [formData, setFormData] = useState('')
-  const { loading, user } = useAuth0()
 
   useEffect(() => {
-    get('/topics').then(setTopics)
+    getTopics().then(setTopics)
   }, [])
+
+  const { loading, user } = useAuth0()
 
   const handleAdd = async e => {
     e.preventDefault()
-    fetch(`http://localhost:3001/api/topics`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name: formData })
-    })
-      .then(res => res.json())
-      .then(data => setTopics([data, ...topics]))
+    const newTopic = { name: formData, user: getUserObject() }
+    postTopic(newTopic).then(data => setTopics([data, ...topics]))
   }
 
   const handleDelete = async topicId => {
-    fetch(`http://localhost:3001/api/topics/${topicId}`, {
-      method: 'DELETE'
-    })
-      .then(res => res.json())
-      .then(console.log)
+    removeTopic(topicId)
     let updatedTopics = topics
     setTopics(updatedTopics.filter(topic => topic._id !== topicId))
   }
 
   const handleComplete = async topicId => {
-    fetch(`http://localhost:3001/api/topics/${topicId}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        complete: true
-      }),
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-    const completedTopic = topics.find(topic => topic._id === topicId)
+    patchTopic(topicId, { complete: true })
+    const updatedTopics = [...topics]
+    updatedTopics.find(topic => topic._id === topicId).complete = true
+    setTopics(updatedTopics)
+  }
 
-    completedTopic.complete = true
-    console.log(completedTopic)
-    setTopics([
-      completedTopic,
-      ...topics.filter(topic => topic._id !== topicId)
-    ])
+  const getUserObject = () => {
+    const { sub, name, picture, email } = user
+    console.log({ user: { sub, name, picture, email } })
+    return { sub, name, picture, email }
   }
 
   if (loading) {
