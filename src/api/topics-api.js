@@ -24,3 +24,12 @@ export const removeTopic = id =>
   fetch(`${baseURL}/${id}`, {
     method: 'DELETE'
   }).then(res => res.json())
+
+export const archiveTopic = id =>
+  fetch(`${baseURL}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ archived: true }),
+    headers: {
+      'Content-type': 'application/json'
+    }
+  }).then(res => res.json())

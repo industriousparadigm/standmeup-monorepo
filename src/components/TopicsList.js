@@ -7,12 +7,14 @@ import {
   getTopics,
   postTopic,
   patchTopic,
-  removeTopic
+  removeTopic,
+  archiveTopic
 } from '../api/topics-api'
 
 const TopicsList = () => {
   const [topics, setTopics] = useState(null)
   const [formData, setFormData] = useState('')
+  const [showArchived, setShowArchived] = useState(false)
 
   useEffect(() => {
     getTopics().then(setTopics)
@@ -23,12 +25,22 @@ const TopicsList = () => {
   const handleAdd = async e => {
     e.preventDefault()
     const newTopic = { name: formData, user: getUserObject() }
-    postTopic(newTopic).then(data => setTopics([data, ...topics]))
+    postTopic(newTopic)
+    setFormData('')
+    const updatedTopics = [newTopic, ...topics]
+    setTopics(updatedTopics)
   }
 
   const handleDelete = async topicId => {
     removeTopic(topicId)
-    let updatedTopics = topics
+    const updatedTopics = topics.filter(topic => topic._id !== topicId)
+    setTopics(updatedTopics)
+  }
+
+  const handleArchive = async topicId => {
+    archiveTopic(topicId)
+    let updatedTopics = [...topics]
+    updatedTopics.find(topic => topic._id === topicId).archive = true
     setTopics(updatedTopics.filter(topic => topic._id !== topicId))
   }
 
@@ -41,7 +53,6 @@ const TopicsList = () => {
 
   const getUserObject = () => {
     const { sub, name, picture, email } = user
-    console.log({ user: { sub, name, picture, email } })
     return { sub, name, picture, email }
   }
 
@@ -52,38 +63,50 @@ const TopicsList = () => {
   return (
     <>
       <p className='text-muted'>{user.name}</p>
-      <form className='form-inline col-md-4 col-md-offset-4'>
-        <div className='form-group mx-sm-3 mb-2'>
-          <label htmlFor='input-new-topic' className='sr-only'>
-            new topic
-          </label>
-          <input
-            type='text'
-            className='form-control'
-            id='input-new-topic'
-            placeholder='new topic'
-            value={formData}
-            onChange={e => setFormData(e.target.value)}
-          />
+      <form className='container'>
+        <div className='form-row justify-content-center'>
+          <div className='form-group mx-auto mb-3'>
+            <label htmlFor='input-new-topic'>Add new topic</label>
+            <input
+              type='text'
+              className='form-control'
+              id='input-new-topic'
+              placeholder='new topic'
+              value={formData}
+              onChange={e => setFormData(e.target.value)}
+            />
+          </div>
+          <div className='form-group col-md-3'>
+            <button onClick={handleAdd} className='btn btn-primary mb-2'>
+              add
+            </button>
+          </div>
+          <div className='form-group col-md-3'>
+            <button
+              onClick={e => {
+                e.preventDefault()
+                setShowArchived(!showArchived)
+              }}
+              className='btn btn-sm btn-primary mb-2'
+            >
+              {`${showArchived ? 'hide' : 'show'} archived topics`}
+            </button>
+          </div>
         </div>
-        <button
-          onClick={handleAdd}
-          type='submit'
-          className='btn btn-primary mb-2'
-        >
-          add
-        </button>
       </form>
 
       {topics &&
-        topics.map(topic => (
-          <TopicCard
-            key={topic._id}
-            topic={topic}
-            handleDelete={handleDelete}
-            handleComplete={handleComplete}
-          />
-        ))}
+        topics
+          .filter(topic => showArchived || !topic.archived)
+          .map(topic => (
+            <TopicCard
+              key={topic._id}
+              topic={topic}
+              handleComplete={handleComplete}
+              handleArchive={handleArchive}
+              handleDelete={handleDelete}
+            />
+          ))}
     </>
   )
 }

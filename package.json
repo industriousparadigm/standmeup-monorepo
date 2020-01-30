@@ -19,6 +19,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
+    "framer-motion": "^1.8.3",
     "helmet": "^3.18.0",
     "highlight.js": "^9.15.6",
     "jwks-rsa": "^1.4.0",

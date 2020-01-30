@@ -60,4 +60,14 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+// Get archived topics
+// router.get('/archived', async (req, res) => {
+//   try {
+//     const topics = await Topic.find({ archived: true }).reverse()
+//     res.json(topics)
+//   } catch (err) {
+//     res.status(500).json({ message: err.message })
+//   }
+// })
+
 module.exports = router
