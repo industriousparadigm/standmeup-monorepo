@@ -1,6 +1,5 @@
 import React from 'react'
 import Moment from 'react-moment'
-import { motion } from 'framer-motion'
 
 const TopicCard = ({
   topic: { _id, name, complete, createdAt },
@@ -9,7 +8,7 @@ const TopicCard = ({
   handleArchive
 }) => {
   return (
-    <motion.div
+    <div
       whileHover={{ scale: 1.05 }}
       className={`card mx-auto bg-${complete ? 'success' : 'warning'} mb-3`}
       style={{ maxWidth: '18rem' }}
@@ -42,7 +41,7 @@ const TopicCard = ({
           Delete
         </button>
       </div>
-    </motion.div>
+    </div>
   )
 }
 

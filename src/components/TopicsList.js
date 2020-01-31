@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useAuth0 } from '../react-auth0-spa'
 import TopicCard from '../components/TopicCard'
 import Loading from '../components/Loading'
+import { useSpring, animated } from 'react-spring'
 import {
   getTopics,
   postTopic,
@@ -21,6 +22,15 @@ const TopicsList = () => {
   }, [])
 
   const { loading, user } = useAuth0()
+
+  const fade = useSpring({
+    from: {
+      opacity: 0
+    },
+    to: {
+      opacity: 1
+    }
+  })
 
   const handleAdd = async e => {
     e.preventDefault()
@@ -105,6 +115,7 @@ const TopicsList = () => {
               handleComplete={handleComplete}
               handleArchive={handleArchive}
               handleDelete={handleDelete}
+              style={fade}
             />
           ))}
     </>
