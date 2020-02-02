@@ -3,17 +3,15 @@ import React, { useState, useEffect } from 'react'
 import { useAuth0 } from '../react-auth0-spa'
 import TopicCard from '../components/TopicCard'
 import Loading from '../components/Loading'
-import { useSpring, animated } from 'react-spring'
 import {
   getTopics,
-  postTopic,
+  createTopic,
   patchTopic,
-  removeTopic,
-  archiveTopic
+  deleteTopic
 } from '../api/topics-api'
 
-const TopicsList = () => {
-  const [topics, setTopics] = useState(null)
+const Topics = () => {
+  const [topics, setTopics] = useState([])
   const [formData, setFormData] = useState('')
   const [showArchived, setShowArchived] = useState(false)
 
@@ -23,34 +21,28 @@ const TopicsList = () => {
 
   const { loading, user } = useAuth0()
 
-  const fade = useSpring({
-    from: {
-      opacity: 0
-    },
-    to: {
-      opacity: 1
-    }
-  })
-
   const handleAdd = async e => {
     e.preventDefault()
-    const newTopic = { name: formData, user: getUserObject() }
-    postTopic(newTopic)
+    if (!user) return
+    const newTopic = await createTopic({
+      name: formData,
+      user: getUserObject()
+    })
     setFormData('')
     const updatedTopics = [newTopic, ...topics]
     setTopics(updatedTopics)
   }
 
   const handleDelete = async topicId => {
-    removeTopic(topicId)
+    deleteTopic(topicId)
     const updatedTopics = topics.filter(topic => topic._id !== topicId)
     setTopics(updatedTopics)
   }
 
   const handleArchive = async topicId => {
-    archiveTopic(topicId)
-    let updatedTopics = [...topics]
-    updatedTopics.find(topic => topic._id === topicId).archive = true
+    patchTopic(topicId, { archived: true })
+    const updatedTopics = [...topics]
+    updatedTopics.find(topic => topic._id === topicId).archived = true
     setTopics(updatedTopics.filter(topic => topic._id !== topicId))
   }
 
@@ -104,7 +96,6 @@ const TopicsList = () => {
           </div>
         </div>
       </form>
-
       {topics &&
         topics
           .filter(topic => showArchived || !topic.archived)
@@ -115,11 +106,10 @@ const TopicsList = () => {
               handleComplete={handleComplete}
               handleArchive={handleArchive}
               handleDelete={handleDelete}
-              style={fade}
             />
           ))}
     </>
   )
 }
 
-export default TopicsList
+export default Topics

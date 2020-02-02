@@ -2,6 +2,7 @@ import React from 'react'
 import Moment from 'react-moment'
 
 const TopicCard = ({
+  topic,
   topic: { _id, name, complete, createdAt },
   handleComplete,
   handleDelete,
@@ -9,7 +10,6 @@ const TopicCard = ({
 }) => {
   return (
     <div
-      whileHover={{ scale: 1.05 }}
       className={`card mx-auto bg-${complete ? 'success' : 'warning'} mb-3`}
       style={{ maxWidth: '18rem' }}
     >

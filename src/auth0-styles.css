@@ -177,7 +177,7 @@
   background-size: cover;
 }
 
-#topicslist-container {
+#topics-container {
   display: flex;
   flex-direction: column;
   align-items: center;
