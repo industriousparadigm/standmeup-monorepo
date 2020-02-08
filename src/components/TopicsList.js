@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useAuth0 } from '../react-auth0-spa'
 import TopicCard from '../components/TopicCard'
 import Loading from '../components/Loading'
+import { useTrail, animated } from 'react-spring'
 import {
   getTopics,
   createTopic,
@@ -12,12 +13,27 @@ import {
 
 const Topics = () => {
   const [topics, setTopics] = useState([])
+  const [relevantTopics, setRelevantTopics] = useState([])
   const [formData, setFormData] = useState('')
   const [showArchived, setShowArchived] = useState(false)
 
   useEffect(() => {
     getTopics().then(setTopics)
   }, [])
+
+  useEffect(() => {
+    topics.length > 0 &&
+      setRelevantTopics(
+        showArchived
+          ? topics
+          : topics.filter(topic => showArchived || !topic.archived)
+      )
+  }, [showArchived, topics])
+
+  const trail = useTrail(relevantTopics.length, {
+    from: { opacity: 0 },
+    to: { opacity: 1 }
+  })
 
   const { loading, user } = useAuth0()
 
@@ -96,10 +112,10 @@ const Topics = () => {
           </div>
         </div>
       </form>
-      {topics &&
+      {/* {topics &&
         topics
           .filter(topic => showArchived || !topic.archived)
-          .map(topic => (
+          .map(topic => (<animated.div style={trail}>
             <TopicCard
               key={topic._id}
               topic={topic}
@@ -107,7 +123,22 @@ const Topics = () => {
               handleArchive={handleArchive}
               handleDelete={handleDelete}
             />
-          ))}
+
+          </animated.div>
+          ))} */}
+      {trail.map((anim, i) => {
+        const topic = relevantTopics[i]
+        return (
+          <animated.div style={anim} key={topic._id}>
+            <TopicCard
+              topic={topic}
+              handleComplete={handleComplete}
+              handleArchive={handleArchive}
+              handleDelete={handleDelete}
+            />
+          </animated.div>
+        )
+      })}
     </>
   )
 }

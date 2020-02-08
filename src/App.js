@@ -1,5 +1,6 @@
-import React from 'react'
-import { Router, Route, Switch } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Router, Route, Switch, __RouterContext } from 'react-router-dom'
+import { animated, useTransition } from 'react-spring'
 import { Container } from 'reactstrap'
 import PrivateRoute from './components/PrivateRoute'
 import Loading from './components/Loading'
@@ -20,8 +21,26 @@ import './auth0-styles.css'
 import initFontAwesome from './utils/initFontAwesome'
 initFontAwesome()
 
+// TODO! figure out why this won't work. Why does routerContext come back undefined?!
+const useRouter = () => useContext(__RouterContext)
+
 const App = () => {
+  console.log({ __RouterContext })
+  const routerContext = useRouter()
+  console.log({ routerContext })
+
   const { loading } = useAuth0()
+
+  // const transitions = useTransition(location, location => location.key, {
+  //   from: {
+  //     opacity: 0,
+  //     position: 'absolute',
+  //     width: '100%',
+  //     transform: 'translate3d(100%, 0, 0)'
+  //   },
+  //   enter: { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+  //   leave: { opacity: 0, transform: 'translate3d(-50%, 0, 0)' }
+  // })
 
   if (loading) {
     return <Loading />
