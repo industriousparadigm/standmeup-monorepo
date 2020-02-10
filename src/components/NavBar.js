@@ -77,6 +77,13 @@ const NavBar = () => {
                 </NavItem>
               )}
               {isAuthenticated && (
+                // <img
+                //   src={user.picture}
+                //   alt='Profile'
+                //   className='nav-user-profile rounded-circle'
+                //   width='50'
+                // />
+
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret id='profileDropDown'>
                     <img

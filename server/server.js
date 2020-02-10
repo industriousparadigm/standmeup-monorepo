@@ -1,3 +1,4 @@
+const cors = require('cors')
 const express = require('express')
 const dotenv = require('dotenv')
 const jwt = require('express-jwt')
@@ -11,15 +12,16 @@ dotenv.config()
 // Create a new Express app and add utilities
 const app = express()
 app.use(express.json())
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
-  res.header('Access-Control-Allow-Methods', 'GET, PUT, PATCH, POST, DELETE')
-  next()
-})
+app.use(cors())
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+//   )
+//   res.header('Access-Control-Allow-Methods', 'GET, PUT, PATCH, POST, DELETE')
+//   next()
+// })
 
 // Connect to mongoDB
 const uri = process.env.MONGO_URI
@@ -31,7 +33,7 @@ const db = mongoose.connection
 db.on('error', error => console.error(error))
 db.once('open', () => console.log('Connected to MongoDB database'))
 
-// Define middleware that validates incoming bearer tokens
+// AUTH0: Define middleware that validates incoming bearer tokens
 // using JWKS from dev-piqi36-y.eu.auth0.com
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
@@ -46,7 +48,7 @@ const checkJwt = jwt({
   algorithm: ['RS256']
 })
 
-// Define an endpoint that must be called with an access token
+// AUTH0: Define an endpoint that must be called with an access token
 app.get('/api/jwt', checkJwt, (req, res) => {
   try {
     res.send({ msg: 'reached the /api/external endpoint :)' })

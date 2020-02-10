@@ -35,15 +35,18 @@ const Topics = () => {
     to: { opacity: 1 }
   })
 
-  const { loading, user } = useAuth0()
+  const { loading, user, getTokenSilently } = useAuth0()
 
   const handleAdd = async e => {
     e.preventDefault()
     if (!user) return
-    const newTopic = await createTopic({
-      name: formData,
-      user: getUserObject()
-    })
+    const newTopic = await createTopic(
+      {
+        name: formData,
+        user: getUserObject()
+      },
+      await getTokenSilently()
+    )
     setFormData('')
     const updatedTopics = [newTopic, ...topics]
     setTopics(updatedTopics)
