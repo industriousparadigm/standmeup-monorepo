@@ -1,6 +1,5 @@
 import React from 'react'
-import { Router, Route, Switch, __RouterContext } from 'react-router-dom'
-import { animated, useTransition } from 'react-spring'
+import { Router } from 'react-router-dom'
 import Loading from './components/Loading'
 import NavBar from './components/NavBar'
 import Main from './components/Main'
@@ -8,11 +7,9 @@ import Footer from './components/Footer'
 import { useAuth0 } from './react-auth0-spa'
 import history from './utils/history'
 
-// styles
+// load styles and fontawesome
 import './App.css'
 import './auth0-styles.css'
-
-// fontawesome
 import initFontAwesome from './utils/initFontAwesome'
 initFontAwesome()
 

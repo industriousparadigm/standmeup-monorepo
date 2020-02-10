@@ -2,14 +2,21 @@ import React, { useState } from 'react'
 import Moment from 'react-moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons'
+import { animated, useSpring } from 'react-spring'
 
 const TopicCard = ({
-  topic: { _id, name, complete, createdAt },
+  topic,
+  topic: { _id, name, complete, archived, createdAt },
   handleComplete,
   handleDelete,
   handleArchive
 }) => {
   const [open, setOpen] = useState(false)
+
+  const animation = useSpring({
+    opacity: open ? 1 : 0
+  })
+
   return (
     <div
       className={`card mx-auto bg-${complete ? 'success' : 'warning'} mb-3`}
@@ -20,7 +27,7 @@ const TopicCard = ({
           {name}
         </h5>
         {open && (
-          <>
+          <animated.div style={animation}>
             <p className={`card-text text-${complete ? 'light' : 'black-50'}`}>
               <Moment format='ddd MMM D'>{createdAt}</Moment>
             </p>
@@ -35,6 +42,7 @@ const TopicCard = ({
             <button
               onClick={() => handleArchive(_id)}
               className='btn btn-sm btn-info mr-2'
+              disabled={Boolean(archived)}
             >
               Archive
             </button>
@@ -51,7 +59,7 @@ const TopicCard = ({
               icon={faArrowAltCircleUp}
               color='black'
             />
-          </>
+          </animated.div>
         )}
       </div>
     </div>

@@ -47,7 +47,7 @@ const checkJwt = jwt({
 })
 
 // Define an endpoint that must be called with an access token
-app.get('/api/external', checkJwt, (req, res) => {
+app.get('/api/jwt', checkJwt, (req, res) => {
   try {
     res.send({ msg: 'reached the /api/external endpoint :)' })
   } catch (error) {

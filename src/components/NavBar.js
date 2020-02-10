@@ -60,16 +60,6 @@ const NavBar = () => {
                       Topics
                     </NavLink>
                   </NavItem>
-                  {/* <NavItem>
-                    <NavLink
-                      tag={RouterNavLink}
-                      to='/external-api'
-                      exact
-                      activeClassName='router-link-exact-active'
-                    >
-                      External API
-                    </NavLink>
-                  </NavItem> */}
                 </>
               )}
             </Nav>
