@@ -1,21 +1,6 @@
 const express = require('express')
 const Topic = require('../models/topic')
 const router = express.Router()
-// const jwt = require('express-jwt')
-// const jwksRsa = require('jwks-rsa')
-
-// const checkJwt = jwt({
-//   secret: jwksRsa.expressJwtSecret({
-//     cache: true,
-//     rateLimit: true,
-//     jwksRequestsPerMinute: 5,
-//     jwksUri: `https://${process.env.REACT_APP_AUTH0_DOMAIN}/.well-known/jwks.json`
-//   }),
-
-//   audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-//   issuer: `https://${process.env.REACT_APP_AUTH0_DOMAIN}/`,
-//   algorithm: ['RS256']
-// })
 
 // Get all topics
 router.get('/', async (req, res) => {
@@ -37,9 +22,6 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: err.message })
   }
 })
-
-// add JWT middleware to ensure caller has the proper authorization
-// router.use(checkJwt)
 
 // Create one topic
 router.post('/', async (req, res) => {

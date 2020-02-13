@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import Moment from 'react-moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons'
 import { animated, useSpring } from 'react-spring'
 
 const TopicCard = ({
-  topic,
   topic: { _id, name, complete, archived, createdAt },
   handleComplete,
   handleDelete,
@@ -56,7 +54,7 @@ const TopicCard = ({
             <br />
             <FontAwesomeIcon
               onClick={() => setOpen(false)}
-              icon={faArrowAltCircleUp}
+              icon='arrow-alt-circle-up'
               color='black'
             />
           </animated.div>

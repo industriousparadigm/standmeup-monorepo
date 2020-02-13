@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Button } from 'reactstrap'
-import Highlight from '../components/Highlight'
 import { useAuth0 } from '../react-auth0-spa'
 
 const ExternalApi = () => {
@@ -10,9 +9,11 @@ const ExternalApi = () => {
 
   const callApi = async () => {
     try {
+      console.log({ debug: 'hi mark' })
+
       const token = await getTokenSilently()
 
-      const response = await fetch('/api/jwt', {
+      const response = await fetch('/api/test', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -20,9 +21,12 @@ const ExternalApi = () => {
 
       const responseData = await response.json()
 
+      console.log({ responseData })
+
       setShowResult(true)
       setApiMessage(responseData)
     } catch (error) {
+      console.error({ debug: 'we in the catch :(' })
       console.error(error)
     }
   }
@@ -45,7 +49,7 @@ const ExternalApi = () => {
       <div className='result-block-container'>
         <div className={`result-block ${showResult && 'show'}`}>
           <h6 className='muted'>Result</h6>
-          <Highlight>{JSON.stringify(apiMessage, null, 2)}</Highlight>
+          {JSON.stringify(apiMessage, null, 2)}
         </div>
       </div>
     </>

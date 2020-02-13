@@ -13,7 +13,7 @@ const Main = () => {
       <Switch>
         <Route path='/' exact component={Home} />
         <PrivateRoute path='/profile' component={Profile} />
-        <PrivateRoute path='/external-api' component={ExternalApi} />
+        <PrivateRoute path='/middleware-tester' component={ExternalApi} />
         <PrivateRoute path='/topics' component={Topics} />
       </Switch>
     </Container>

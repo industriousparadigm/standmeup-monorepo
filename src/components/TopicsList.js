@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import { Container } from 'reactstrap'
 import { useAuth0 } from '../react-auth0-spa'
 import TopicCard from '../components/TopicCard'
 import Loading from '../components/Loading'
@@ -13,29 +12,30 @@ import {
 
 const Topics = () => {
   const [topics, setTopics] = useState([])
-  const [relevantTopics, setRelevantTopics] = useState([])
+  const [visibleTopics, setVisibleTopics] = useState([])
   const [formData, setFormData] = useState('')
   const [showArchived, setShowArchived] = useState(false)
+  const { loading, user, getTokenSilently } = useAuth0()
 
   useEffect(() => {
-    getTopics().then(setTopics)
-  }, [])
+    getTopics()
+      .then(data => data.filter(topic => topic.user.sub === user.sub))
+      .then(setTopics)
+  }, [user.sub])
 
   useEffect(() => {
     topics.length > 0 &&
-      setRelevantTopics(
+      setVisibleTopics(
         showArchived
           ? topics
           : topics.filter(topic => showArchived || !topic.archived)
       )
   }, [showArchived, topics])
 
-  const trail = useTrail(relevantTopics.length, {
+  const trail = useTrail(visibleTopics.length, {
     from: { opacity: 0 },
     to: { opacity: 1 }
   })
-
-  const { loading, user, getTokenSilently } = useAuth0()
 
   const handleAdd = async e => {
     e.preventDefault()
@@ -62,7 +62,7 @@ const Topics = () => {
     patchTopic(topicId, { archived: true })
     const updatedTopics = [...topics]
     updatedTopics.find(topic => topic._id === topicId).archived = true
-    setTopics(updatedTopics.filter(topic => topic._id !== topicId))
+    setTopics(updatedTopics)
   }
 
   const handleComplete = async topicId => {
@@ -130,7 +130,7 @@ const Topics = () => {
           </animated.div>
           ))} */}
       {trail.map((anim, i) => {
-        const topic = relevantTopics[i]
+        const topic = visibleTopics[i]
         return (
           <animated.div style={anim} key={topic._id}>
             <TopicCard

@@ -1,12 +1,16 @@
 import React from 'react'
-import { Container, Row, Col } from 'reactstrap'
+import { Container, Row, Col, Button } from 'reactstrap'
 
-import Highlight from '../components/Highlight'
 import Loading from '../components/Loading'
 import { useAuth0 } from '../react-auth0-spa'
 
 const Profile = () => {
-  const { loading, user } = useAuth0()
+  const { loading, user, logout } = useAuth0()
+
+  const logoutWithRedirect = () =>
+    logout({
+      returnTo: window.location.origin
+    })
 
   if (loading || !user) {
     return <Loading />
@@ -28,8 +32,11 @@ const Profile = () => {
         </Col>
       </Row>
       <Row>
-        <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
+        <Button color='danger' onClick={logoutWithRedirect}>
+          Logout
+        </Button>
       </Row>
+      <Row>{JSON.stringify(user, null, 2)}</Row>
     </Container>
   )
 }
