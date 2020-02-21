@@ -2,15 +2,13 @@ import React, { useState } from 'react'
 import { Button } from 'reactstrap'
 import { useAuth0 } from '../react-auth0-spa'
 
-const ExternalApi = () => {
+const MiddlewareTester = () => {
   const [showResult, setShowResult] = useState(false)
   const [apiMessage, setApiMessage] = useState('')
   const { getTokenSilently } = useAuth0()
 
   const callApi = async () => {
     try {
-      console.log({ debug: 'hi mark' })
-
       const token = await getTokenSilently()
 
       const response = await fetch('/api/test', {
@@ -21,24 +19,21 @@ const ExternalApi = () => {
 
       const responseData = await response.json()
 
-      console.log({ responseData })
-
       setShowResult(true)
       setApiMessage(responseData)
-    } catch (error) {
-      console.error({ debug: 'we in the catch :(' })
-      console.error(error)
+    } catch ({ error, error_description }) {
+      setShowResult(true)
+      setApiMessage({ error, error_description })
     }
   }
 
   return (
     <>
       <div className='mb-5'>
-        <h1>External API</h1>
+        <h1>Middleware Tester</h1>
         <p>
-          Ping an external API by clicking the button below. This will call the
-          external API using an access token, and the API will validate it using
-          the API's audience value.
+          Standmeup is talking to an external API which is protected. The button below tests whether
+          you can get past the JWT check.
         </p>
 
         <Button color='primary' className='mt-5' onClick={callApi}>
@@ -56,4 +51,4 @@ const ExternalApi = () => {
   )
 }
 
-export default ExternalApi
+export default MiddlewareTester

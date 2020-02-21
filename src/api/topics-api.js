@@ -17,8 +17,8 @@ export const patchTopic = (id, body, token) =>
     method: 'PATCH',
     body: JSON.stringify(body),
     headers: {
-      'Content-Type': 'application/json'
-      // Authorization: `Bearer ${token}`
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
     }
   }).then(res => res.json())
 

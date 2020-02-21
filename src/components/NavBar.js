@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { NavLink as RouterNavLink, Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {
   Collapse,
@@ -12,23 +11,14 @@ import {
   NavItem,
   NavLink,
   Button,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from 'reactstrap'
 
 import { useAuth0 } from '../react-auth0-spa'
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0()
   const toggle = () => setIsOpen(!isOpen)
-
-  const logoutWithRedirect = () =>
-    logout({
-      returnTo: window.location.origin
-    })
 
   return (
     <div className='nav-container'>
@@ -49,29 +39,27 @@ const NavBar = () => {
                 </NavLink>
               </NavItem>
               {isAuthenticated && (
-                <>
-                  <NavItem>
-                    <NavLink
-                      tag={RouterNavLink}
-                      to='/topics'
-                      exact
-                      activeClassName='router-link-exact-active'
-                    >
-                      Topics
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to='/topics'
+                    exact
+                    activeClassName='router-link-exact-active'
+                  >
+                    Topics
                     </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      tag={RouterNavLink}
-                      to='/middleware-tester'
-                      exact
-                      activeClassName='router-link-exact-active'
-                    >
-                      Middleware Tester
-                    </NavLink>
-                  </NavItem>
-                </>
+                </NavItem>
               )}
+              <NavItem>
+                <NavLink
+                  tag={RouterNavLink}
+                  to='/middleware-tester'
+                  exact
+                  activeClassName='router-link-exact-active'
+                >
+                  Middleware Tester
+                    </NavLink>
+              </NavItem>
             </Nav>
             <Nav className='d-none d-md-block' navbar>
               {!isAuthenticated && (

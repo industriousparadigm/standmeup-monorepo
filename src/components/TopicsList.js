@@ -53,20 +53,20 @@ const Topics = () => {
   }
 
   const handleDelete = async topicId => {
-    deleteTopic(topicId)
+    deleteTopic(topicId, await getTokenSilently())
     const updatedTopics = topics.filter(topic => topic._id !== topicId)
     setTopics(updatedTopics)
   }
 
   const handleArchive = async topicId => {
-    patchTopic(topicId, { archived: true })
+    patchTopic(topicId, { archived: true }, await getTokenSilently())
     const updatedTopics = [...topics]
     updatedTopics.find(topic => topic._id === topicId).archived = true
     setTopics(updatedTopics)
   }
 
   const handleComplete = async topicId => {
-    patchTopic(topicId, { complete: true })
+    patchTopic(topicId, { complete: true }, await getTokenSilently())
     const updatedTopics = [...topics]
     updatedTopics.find(topic => topic._id === topicId).complete = true
     setTopics(updatedTopics)

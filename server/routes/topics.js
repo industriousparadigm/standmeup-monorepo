@@ -23,6 +23,9 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+const checkJwt = require('../middleware/jwt')
+router.use(checkJwt)
+
 // Create one topic
 router.post('/', async (req, res) => {
   const { name, user } = req.body

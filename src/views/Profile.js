@@ -36,7 +36,6 @@ const Profile = () => {
           Logout
         </Button>
       </Row>
-      <Row>{JSON.stringify(user, null, 2)}</Row>
     </Container>
   )
 }
