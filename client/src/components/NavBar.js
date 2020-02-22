@@ -103,7 +103,7 @@ const NavBar = () => {
               <Nav
                 className='d-md-none justify-content-between'
                 navbar
-                style={{ minHeight: 170 }}
+                style={{ minHeight: 140 }}
               >
                 <NavItem>
                   <span className='user-info'>
