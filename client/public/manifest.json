@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "standmeup",
+  "name": "Stand Me Up Today!",
   "icons": [
     {
       "src": "favicon.ico",
