@@ -10,7 +10,7 @@ router.use(checkJwt)
 // AUTH0: Define an endpoint that must be called with an access token
 router.get('/', (req, res) => {
   try {
-    res.send({ msg: 'reached the /api/external endpoint :)' })
+    res.send({ msg: 'Nice token! Reached a protected endpoint :)' })
   } catch (error) {
     res.status(401).json({ message: error.message })
   }
