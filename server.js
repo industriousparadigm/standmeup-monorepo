@@ -22,12 +22,13 @@ app.use('/api/test', testRouter)
 // Serve React assets in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  app.use(express.static('build'))
+  app.use(express.static('client/build'))
 
   app.get('*', (_, res) => {
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
 
 // Start the app
-app.listen(3001, () => console.log('API listening on 3001'))
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => console.log(`API listening on ${PORT}`))
