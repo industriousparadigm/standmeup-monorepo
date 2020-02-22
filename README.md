@@ -4,7 +4,13 @@ Welcome to Standmeup, a simple app to keep track of topics to bring up during yo
 
 ### Techy stuff
 
-Data created by users is stored in a MongoDB database, served via a Node server and displayed using React.
+- **Node-express** server
+- **React** client
+- **Auth0** user management
+- **MongoDB** database
+- **mongoose** object modeling
+- **Bootstrap** basic styles
+- **react-spring** basic animations
 
 Login is dealt with using Auth0.
 
