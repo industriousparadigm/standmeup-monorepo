@@ -1,4 +1,4 @@
-const baseURL = 'https://standmeup.herokuapp.com'
+const baseURL = 'https://standmeup.herokuapp.com/api/topics'
 
 export const getTopics = () => fetch(baseURL).then(res => res.json())
 
